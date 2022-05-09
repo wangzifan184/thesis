@@ -113,12 +113,106 @@ WuKong\cite{wang2015wukong}和AnDarwin\cite{crussell2014andarwin}用控制流图
 \textbf{CLASS文件：}class文件是能够被java虚拟机识别，加载并执行的文件格式，通过javac程序可以从java源文件生成class文件。class文件记录了一个类文件的所有信息，不仅包含了java源代码中的信息，还包括了this、super等关键字的信息。作为一种8位字节的二进制六文件，class中的数据按顺序紧密排列，没有间隙，从而让JVM加载更加迅速，每一个类、接口或者枚举都单独占据一个class文件。
 
 
-\subsubsection{Dex与Class获取}
+\subsubsection{Apk与jar的预处理}
+
+预处理流程如图\ref{fig:preprocess}所示。
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=15cm]{preprocess.pdf} \\
+  \caption{Apk与标准库转换到java字节码的预处理流程}
+ \label{fig:preprocess}
+\end{figure}
+
+\textbf{Apk预处理：}从应用市场获取待检测的应用的安装包，即apk文件。Apk文件本质上为zip格式的压缩文件，解压后可以得到dex文件。借助dex到jar的转换工具dex2jar\cite{d2j}将DEX文件转换为包含多个class文件。此处的class文件通常是经过软件开发者混淆的，大部分类的名称和函数的名称经过了混淆处理，不能提供有效信息，转换得到的包的目录结构也不可靠。
+
+
+\textbf{Jar预处理：}Maven社区提供的中央仓库\cite{maven}包含了大量常用的库，包括绝大多数流行的Java开源构件，源码，许可证信息等，一般来说简单的Java项目依赖的构建都可以满足，因此选择Maven仓库中的部分jar包作为构建数据库的基础。我利用爬虫从Maven中央仓库中获取了大量的jar包或aar包，aar包需要先解压一次获得其中的jar包，将jar包解压就可以获得该标准库的各个class文件。在爬取标准库的过程中，需要跳过一些带有javadoc或者sources字样的链接，这表示该包为一个说明文档包或者源代码包，在此次工作中用不到。
+
+
+\textbf{字节码的生成：}Java字节码是一种程序的低级表示，能够直接被java虚拟机所理解和翻译，以实现java跨平台的特性。具有二进制格式的class文件，实质上就是java的字节码，属于独立于平台和操作系统的指令集。为了删除class文件中的常量信息，我使用javap程序将class文件反编译为具有可读性的助记符形式的字节码，可以清楚地区分开描述符，代码，常量池等部分，并存储为文本文件供后续使用。
 
 
 
 
+\section{构建特征树}
+
+\subsection{两级特征}
+如果特征的计算方法过于复杂，将会导致在获取apk特征时用时过长，因此本方法中采用了两级特征——粗粒度特征与细粒度特征，来解决这一问题，同时实现第三方库的版本检测。粗粒度特征计算方法简短、生成速度快、相应的精准度有所下降，用于确定待测apk中的包是数据库中的哪一个标准库。细粒度特征计算方法复杂、生成速度慢、但可以精确到单条字节码操作指令的层面。对于细粒度特征而言，即便同一个库的版本不同所导致的细微代码差异也能够体现出来，因此可以在包成功匹配的情况下进一步匹配具体版本。
 
 
+\subsubsection{粗粒度特征}
+
+粗粒度特征由函数的描述符生成，由于函数描述符包含了函数名、参数名，极易受到重命名混淆影响，因此我将名称部分删去，以\textit{返回值类型 （参数1类型，参数2类型，...，参数n类型）}的字符串作为描述符，计算其md5哈希值，得到该方法的签名，一个例子如表\ref{tab:descriptor}所示。尽管此签名可能在多个包中，乃至一个包中的不同类中出现，但是结合该类下的各个方法的签名，方法的序列，可以减少碰撞的概率，用于初步表示一个类。如表\ref{tab:activemq}所示，标准库\textit{org.codehaus.avtivemq}的两个类\textit{ActiveMQMessageConsumer}和\textit{BrokerClientImpl}在方法“\textit{public java.lang.String toString()}”上发生了碰撞，但是在其他方法上有很大差异，方法的总数也不同，从而类的层面的特征有所区别。
+
+
+\begin{table}[!hpt]
+  \caption{方法描述符的处理}
+  \label{tab:descriptor}
+  \centering
+  \begin{tabular}{cp{8cm}} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    原始描述符 & public static ActiveMQConnection makeConnection(String user, String password, String uri)\\ \midrule
+    删除名称后的描述符  & public static org.codehaus.activemq.ActiveMQConnection makeConnection(java.lang.String, java.lang.String, java.lang.String) \\ \midrule
+    md5哈希值      & befc542005082b1940176d89035826ab \\ \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[!hpt]
+  \caption{标准库org.codehaus.activemq中的两个类包含方法（部分）的情况}
+  \label{tab:activemq}
+  \centering
+  \begin{tabular}{ccc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    描述符 & ActiveMQMessageConsumer & BrokerClientImpl \\ \midrule
+     public java.lang.String toString(); & \ding{51}  & \ding{55} \\ 
+     protected long getStartTime(); & \ding{51} & \ding{55} \\
+      protected void setBrowser(boolean); & \ding{51} & \ding{55} \\
+    public void updateBrokerCapacity(int); & \ding{55} & \ding{51}\\ \bottomrule
+  \end{tabular}
+\end{table}
+
+
+
+\subsubsection{细粒度特征}
+
+细粒度特征基于函数的字节码生成。\textit{ActiveMQConnection}类的一个方法\textit{makeConnection}的字节码如下所示：
+
+\begin{codeblock}[language=C]
+  public static org.codehaus.activemq.ActiveMQConnection makeConnection(
+  java.lang.String) throws javax.jms.JMSException;
+    Code:
+       0: new           #6                
+       3: dup
+       4: aload_0
+       5: invokespecial #10                
+       8: astore_1
+       9: aload_1
+      10: invokevirtual #8                
+      13: checkcast     #9                
+      16: areturn
+\end{codeblock}
+
+
+Java字节码是基于堆栈结构的，上面字节码“Code”部分的每一行对应于一条操作指令，仅仅表示对堆栈的操作，而不包含操作数。源代码中所定义的常量、变量名等静态成员存放在常量池中，因而避免了名称混淆的问题。每一条操作指令对应于一个十六进制的操作码，表\ref{tab:bytecode}展示了部分对应关系及其说明。
+
+
+\begin{table}[!hpt]
+  \caption{Java字节码助记符与十六进制操作码对应关系（部分）}
+  \label{tab:bytecode}
+  \centering
+  \begin{tabular}{ccc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    助记符 & 操作码 & 说明 \\ \midrule
+    new  & 0xbb & 创建一个对象，并将其引用值压入栈顶 \\
+	dup & 0x59 & 复制栈顶数值，并将复制值压入栈顶 \\
+	aload\_0 & 0x2a & 将第一个引用类型本地变量推送至栈顶 \\
+	invokespecial & 0xb7 & 调用超类构造方法，实例初始化方法，私有方法 \\
+	astore\_1 & 0x4c & 将栈顶引用型数值存入第二个本地变量 \\
+	aload\_1 & 0x2b & 将第一个引用类型本地变量推送至栈顶 \\
+	invokevirtual & 0xb6 & 调用实例方法 \\
+	checkcast & 0xc0 & 检验类型转换，检验未通过将抛出异常 \\
+	areturn & 0xb0 & 从当前方法返回对象引用 \\ \bottomrule
+  \end{tabular}
+\end{table}
 
 

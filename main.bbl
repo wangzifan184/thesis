@@ -901,6 +901,36 @@
       \range{pages}{12}
       \keyw{li2017libd}
     \endentry
+    \entry{d2j}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{howpublished}{\url{https://github.com/wangzifan184/dex2jar}}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{note}{Accessed May 9, 2022}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \keyw{d2j}
+    \endentry
+    \entry{maven}{misc}{}
+      \list{language}{1}{%
+        {english}%
+      }
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{howpublished}{\url{https://repo.maven.apache.org/}}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{note}{Accessed May 9, 2022}
+      \field{usera}{Z}
+      \field{userd}{english}
+      \keyw{maven}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
