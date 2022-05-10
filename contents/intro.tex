@@ -216,3 +216,179 @@ Java字节码是基于堆栈结构的，上面字节码“Code”部分的每一
 \end{table}
 
 
+
+
+\subsection{特征树的实现}
+
+\subsubsection{字节码特征提取}
+
+如图\ref{fig:tree}所示，字节码解析器布置在树的下方，其接收字节码文件，从文件头开始读入，利用正则表达式匹配每一个函数的描述符。当匹配成功时，表明一个函数的读入即将开始，则解析器依次读取函数描述符和操作指令序列，并将原始特征记录为一个特征对。当读至文件尾时，该class文件代表的类的所有成员函数全部读取完毕，将各特征对传递给上方的树。
+
+
+\subsubsection{方法层}
+
+方法实现为\textit{mNode}（Method Node）类。根据提取出来的字节码的原始特征，对于每一对粗/细粒度原始特征，生成一个方法节点，对原始特征进行处理。方法节点记录了原始的函数描述符，文件路径等基本信息，同时生成了处理后的特征的MD5哈希值，作为此方法的两级特征。表为\textit{ActiveMQConnection}类中方法\textit{createSession}的各个属性值。
+
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=15cm]{tree.pdf} \\
+  \caption{使用特征提取器从字节码文件中获取特征并存储为树型数据结构}
+ \label{fig:tree}
+\end{figure}
+
+\subsubsection{类层}
+
+类实现为\textit{cNode}（Class Node）类，类层根据该class文件中包含的方法，将各个方法对应的\textit{mNode}节点作为自己的子节点。不同类的方法数大相径庭，有的类没有方法，只有数据成员，有的类则包含几十甚至上百个函数成员。再考虑到类的不同版本之间可能差异很小，仅仅体现在个别方法的几个函数上，类的特征必须能体现函数成员的特征。因此我采用了模糊哈希的方法，算法如\ref{algo:fuzzyhash}所示，将类下各方法的特征进行排序、连接，计算模糊哈希值作为类的粗/细粒度特征。
+
+此处模糊哈希的用法与ATVHunter\cite{zhan2021atvhunter}有相似之处，都是为了降低代码混淆对最后特征带来的影响，但是ATVHunter的目标是减少部分指令改变对函数签名的影响，而此处是减少部分函数改变对类的特征的影响。如图\ref{fig:fuzzy}所示，模糊哈希的应用步骤为：
+\begin{enumerate}
+\item{将类下各方法的特征连接成一个序列。}
+\item{使用滑动窗口（滚动哈希）将序列分割成不同的切片。}
+\item{对每个切片，计算其MD5哈希值，取最后6位作为压缩映射值。}
+\item{最后将所有映射值连接起来作为最终值。}
+\end{enumerate}
+
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=15cm]{fuzzy.pdf} \\
+  \caption{使用特征提取器从字节码文件中获取特征并存储为树型数据结构}
+ \label{fig:fuzzy}
+\end{figure}
+
+
+
+\begin{table}[!hpt]
+  \caption{标准库org.codehaus.activemq中的两个类包含方法（部分）的情况}
+  \label{tab:activemq}
+  \centering
+  \begin{tabular}{cc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    方法 & org.codehaus.activemq.ActiveMQConnection\$createSession  \\ \midrule
+    描述符特征 & public javax.jms.Session(boolean, int)  \\ 
+    字节码指令序列 & 2a b6 2a b6 bb 59 2a 1b 99 03 a7 1c b7 b0 \\
+    粗粒度特征 & d8a58a75cf9b3272e8736cd74256fdc7 \\
+    细粒度特征 &  45422e23d690d166bc6dd144f226076f \\ \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\begin{algorithm}[htb]
+  \caption{类的模糊哈希值计算}
+  \label{algo:fuzzyhash}
+  \small
+  \SetAlgoLined
+  \KwData{类节点cNode}
+  \KwResult{类的模糊哈希值Fuzzy\_hash }
+
+  initialization\;
+  sort(cNode.getMethods())\;
+  Sequence$\leftarrow$null\;
+  \For{mNode $\in$ cNode.getMethods()}{Sequence $\leftarrow$ Sequence $cascade$ mNode.getFeature()\;}
+  Slices$\leftarrow$rolling\_hash(Sequence)\;
+  Fuzzy\_hash$\leftarrow$null\;
+  \For {slice $\in$ Slices}{F\_hash\_slice$\leftarrow$mapping\_function(MD5(slice))\;
+  					 Fuzzy\_hash$\leftarrow$Fuzzy\_hash $cascade$ F\_hash\_slice\;}
+
+\end{algorithm}
+
+
+\subsubsection{包层}
+
+包实现为\textit{pNode}（Package Node）类，是一个特征树的根节点。包层不产生特征，用于管理属于该包下的各个类。为了解决APK产生的包中可能存在目录结构的混淆问题，每一个包都采用根包作为唯一的根节点，其下包含的子包以及子包中的二级子包等所拥有的类都归为根包的类。
+
+最后将从包到方法的各个节点封装为一个\textit{javaTree}类，负责统筹管理从文件的筛选到各级节点的生成等诸多工作。
+
+
+
+\subsection{特征存储}
+
+为了便于特征的查找与管理，我将哈希树输出的特征存放在MySQL数据库中，步骤如下：
+
+\begin{enumerate}
+\item{设计数据库scheme：tpl如表\ref{tab:mysql}所示，在tpl下创建表maven，存储从Maven仓库获取的标准库。}
+\item{遍历本地爬取到的Maven仓库，当文件夹中包含\textit{META-INF}时表明当前目录为一个根包的目录。}
+\item{在根包的目录上构建哈希树，解析目录中的文件，形成该包下各类、各方法的特征。}
+\item{用插入语句将特征存储到数据库中}
+\end{enumerate}
+
+\begin{table}[!hpt]
+  \caption{MySQL数据库中tpl的scheme}
+  \label{tab:mysql}
+  \centering
+  \begin{tabular}{l|lllll} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    字段 &  package & class & method & coarse feature & fine feature \\ \midrule
+    数据类型 & varchar(255) & varchar(255) & varchar(1024) & varchar(255) & varchar(255)  \\  \bottomrule
+
+  \end{tabular}
+\end{table}
+
+
+
+\subsection{特征匹配}
+
+
+\begin{table}[!hpt]
+  \caption{标准库与安卓应用的相关符号及说明}
+  \label{tab:symbol}
+  \centering
+  \begin{tabular}{cc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    符号 &  说明 \\ \midrule
+    $T_{sim}$ & 相似度阈值，相似度超过此值的两个特征认为互相匹配 \\
+	$feature_{lib}$ & 来源于标准库的一个类或者方法的特征 \\ 
+	$feature_{app}$ & 来源于安卓应用的一个类或者方法的特征 \\
+	$C_{lib}$ & 标准库所包含的类的集合 \\
+	$C_{app}$ & 安卓应用所包含的类的集合 \\
+	$M_{class}$ & 类所包含的方法的集合\\
+	$Similarity_p$ & 两个包之间的相似度\\
+	$Similarity_c$ & 两个类之间的相似度\\
+	 \bottomrule
+
+  \end{tabular}
+\end{table}
+
+
+\subsubsection{相似度}
+
+为了表征标准库与来自Apk的包的相似程度，我引入了相似度来量化这一概念。相似度适用于不同来源（Maven/APP）的类或方法的匹配，是一个介于0和1之间的数，1表示完全匹配。若要判断APP所包含的包是否存在于数据库中，需要查看数据库中是否存在足够数量的类，使得这些类的特征值与APP中类的特征值的相似度都超过了一定阈值。由于类的特征值是根据方法的特征值生成的，因此类的相似程度能过说明其内各个方法的相似程度。类和方法的特征均为字符串序列表示的哈希值，因此用编辑距离来计算两个序列之间的相似度：
+\begin{equation}
+Similarity(feature_{lib},feature_{app})=\frac{edit\_distance(feature_{lib},feature_{app})}{max\{length(feature_{lib}),length(feature_{app})\}}
+\end{equation}
+
+对于待定的阈值$T_{sim}$，定义来自标准库的特征$feature_{lib}$与来自APP的特征$feature_{app}$匹配，如果满足：
+
+\begin{equation}
+Similarity(feature_{lib},feature{app})\ge T_{sim}
+\end{equation}
+
+
+同时，标准库的规模也应该纳入考虑范畴。一些大规模的类、或者相似的类，可能在部分方法上有相似之处，在实现逻辑上有相同点，因此不能仅仅因为成功匹配其下的一部分类就将其所谓候选库。而一些小规模的类，方法数可能很少，一定数量的类匹配就说明其有很大概率就是APP所使用到的库。一种简明的相似度计算方法如下：
+\begin{equation}
+Similarity_p(lib,app)=\frac{|\{c_1,c_2,\dots ,c_n\}|}{|C_{lib}|} \in [0,1]
+\end{equation}
+
+其中，$c_i$满足：
+\begin{subequations}
+\begin{align}
+(a)&\ c_i \in C_{lib}\\
+(b)&\ \exists\  c'\in C_{app}，Similarity(c_i,c')\ge T_{sim}
+\end{align}
+\end{subequations}
+
+
+类似地，用$Similarity_c$表示方法相似度，也可以在方法粒度上实现更为精确的匹配：
+\begin{equation}
+Similarity_c(class_{lib},calss_{app})=\frac{|\{m_1,m_2,\dots ,m_n\}|}{|M_{class_{lib}}|} \in [0,1]
+\end{equation}
+
+其中，$m_i$满足：
+\begin{subequations}
+\begin{align}
+(a)&\ m_i \in M_{class_{lib}}\\
+(b)&\ \exists\  c'\in M_{class_{app}}，Similarity(m_i,m')\ge T_{sim}'
+\end{align}
+\end{subequations}
+
+
+
