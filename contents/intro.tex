@@ -103,9 +103,8 @@ WuKong\cite{wang2015wukong}和AnDarwin\cite{crussell2014andarwin}用控制流图
 
 \section{包的预处理}
 
-\subsection{Dex与Class文件的处理}
 
-\subsubsection{Dex与Class简介}
+\subsection{Dex与Class简介}
 
 \paragraph{DEX文件}是Android系统中的一种文件，是一种特殊的数据格式，能够被Dalvik虚拟机识别并加载执行，类似于Windows上的EXE可执行文件。将APK安装包解压后得到的文件就包含了DEX文件，它记载了应用程序的全部操作指令以及运行时数据。当java程序编译成class文件后，还需要使用dx工具将所有的class文件整合到一个DEX文件里，目的是其中各个类能够共享数据，在一定程度上降低了冗余，同时也使文件结构更加紧凑。DEX文件大小通常是传统jar包的50\%左右。
 
@@ -113,7 +112,7 @@ WuKong\cite{wang2015wukong}和AnDarwin\cite{crussell2014andarwin}用控制流图
 \paragraph{CLASS文件}是能够被java虚拟机识别，加载并执行的文件格式，通过javac程序可以从java源文件生成class文件。class文件记录了一个类文件的所有信息，不仅包含了java源代码中的信息，还包括了this、super等关键字的信息。作为一种8位字节的二进制六文件，class中的数据按顺序紧密排列，没有间隙，从而让JVM加载更加迅速，每一个类、接口或者枚举都单独占据一个class文件。
 
 
-\subsubsection{Apk与jar的预处理}
+\subsection{Apk与jar的预处理}
 
 预处理流程如图\ref{fig:preprocess}所示。
 \begin{figure}[!htp]
@@ -406,9 +405,11 @@ Similarity_c(class_{lib},calss_{app})=\frac{|\{m_1,m_2,\dots ,m_n\}|}{|M_{class_
 
 \paragraph{两级特征策略}包含粗粒度、细粒度两种计算方法复杂度不同、精确度不同的特征，思想为首先利用粗粒度特征初步缩小匹配范围，即App中使用到了Maven的哪些标准库，再用细粒度特征确定这些库的具体版本。一个库如果没有通过粗粒度筛选，说明其方法的数量、各方法的参数数量、返回值及参数的类型这些特征与App存在较大差异，因此它几乎不可能在App中使用到，对这样的库进行具体版本的匹配也是没有意义的。对于通过粗粒度筛选的库，说明它在方法层面与App中的包有一定相似程度，此时再通过基于字节码生成的细粒度特征来精准匹配，不同版本所带来的细微差异也能够体现在特征中。
 
-\paragraph{优先级队列策略}基于一个“局部性”假设：\\{\kaishu 前一个来自App的类匹配完毕时，新到来的类有较大可能与前一个类处于同一个包中}。\\
+\paragraph{优先级队列策略}基于一个“局部性”假设：{\kaishu 前一个来自App的类匹配完毕时，新到来的类有较大可能与前一个类处于同一个包中}。
+
 
 这一假设在直观上是合理的，因为在匹配的过程中，我按照App目录中的文件顺序进行处理，相邻的类处于同一个目录下。尽管App可能经过了目录结构的混淆处理，即将来自不同包的类混入到一个目录下，但除非所有的包都做了混淆且每一个类都被单独打乱路径而非以多个类为批次操作，否则此假设在大多数情况下都成立。
+
 
 为了充分利用这一假设，对待匹配的App设置一个优先级队列。初始时优先级队列为空，从数据库中按序取出$K$个类的记录加入到队列当中。队列中元素的优先级$Priority$定义为与当前待匹配App的类的相似度，其中细粒度特征的相似程度由于包含了更多的原始信息而被赋予更大的权重：
 
@@ -419,4 +420,56 @@ Priority(c_{lib},c_{app})&=0.3\times Similarity(feature^{coarse}_{c_{lib}},featu
 						 &\ \ c_{lib}\in C_{lib}, c_{app}\in C_{app}
 \end{aligned}
 \end{equation}
+
+
+匹配算法如\ref{algo:match}所示，依次将优先级队列中的记录取出，计算与待匹配类的相似度，进一步计算优先级，按照优先级从大到小重排队列。
+队列中的记录全部使用完毕后，从数据库中取出一条新的记录，计算相似度与优先级，并插入到队列的合适位置，如果优先级小于队列尾部记录的优先级则不进入队列。以此类推，将数据库中的所有记录进行匹配。当前待测类匹配流程完毕后，从App中取出下一个待测类，首先与优先级队列中的记录匹配，队列匹配完毕后再从数据库中取得记录，按照此方法将App中的所有类进行匹配。
+
+对于某次匹配结果：
+\begin{enumerate}
+\item{如果完全匹配，即相似度为1，则中止当前流程，直接记录此类属于数据库中类所在的标准库。}
+\item{如果相似度小于1，则以优先级队列中优先级最高的记录为最佳匹配，并将该记录来自的标准库作为当前待测类的识别结果。}
+\end{enumerate}
+
+
+
+\begin{algorithm}[htb]
+  \caption{标准库与App的匹配算法}
+  \label{algo:match}
+  \small
+  \SetAlgoLined
+  \KwData{标准库特征数据库$C_{lib}$，App特征数据库$C_{app}$}
+  \KwResult{匹配结果$Package$}
+
+  Initialize priority queue $Queue_{p}$\;
+  Initialize mapping relation $Package\leftarrow empty\ dictionary$\;
+  \For{$c_{app} \in C_{app}$}{
+	\eIf{$isEmpty(Queue_{p})$}{
+		\For{$c_{lib} \in C_{lib}$}{
+			$priority \leftarrow Priority(c_{lib},c_{app})$\;
+			$Queue_p\dot enQueue(c_{lib},priority)$\;
+			\eIf{priority=1}{$break\;$}{$continue$\;}
+		}
+	}
+	{
+		\For{$c_{lib} \in Queue_p$}{
+			$priority \leftarrow Priority(c_{lib},c_{app})$\;
+			\eIf{priority=1}{$break\;$}{$continue$\;}
+		}
+		\For{$c_{lib} \in C_{lib}$}{
+			$priority \leftarrow Priority(c_{lib},c_{app})$\;
+			$Queue_p.enQueue(c_{lib},priority)$\;
+			\eIf{priority=1}{$break\;$}{$continue$\;}
+		}
+	}
+	$c_{lib}^{match}\leftarrow Queue_p.first()$\;
+	$Package[c_{app}]\leftarrow c_{lib}^{match}.get\_package()$\;
+  }
+\end{algorithm}
+
+
+
+
+
+
 
