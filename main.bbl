@@ -658,6 +658,137 @@
       \range{pages}{20}
       \keyw{chen2016following}
     \endentry
+    \entry{li2018large}{article}{}
+      \name{author}{9}{}{%
+        {{hash=c22bcd6b9203da2bcb0ae91fdbabe2a7}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Menghao},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f57aebc86497dbabb1c6d95647639a1a}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Pei},
+           giveni={P\bibinitperiod}}}%
+        {{hash=f27ec46ccd272a021fd78bdac92dd490}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=d40715daabe18f3238281befdb32fb12}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shuai},
+           giveni={S\bibinitperiod}}}%
+        {{hash=08f343193adee36fdd4faf0006b7894d}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Dinghao},
+           giveni={D\bibinitperiod}}}%
+        {{hash=fd903bc507de58459375d974764ab4ea}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=d628d74db4e2b82823e6983487ade93c}{%
+           family={Xue},
+           familyi={X\bibinitperiod},
+           given={Rui},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a21b1b138e10ec6ed5b904400bf3a51f}{%
+           family={Huo},
+           familyi={H\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=2f4107456904433d626178777704a2a2}{%
+           family={Zou},
+           familyi={Z\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+      }
+      \name{namea}{9}{}{%
+        {{hash=c22bcd6b9203da2bcb0ae91fdbabe2a7}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Menghao},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f57aebc86497dbabb1c6d95647639a1a}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Pei},
+           giveni={P\bibinitperiod}}}%
+        {{hash=f27ec46ccd272a021fd78bdac92dd490}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=d40715daabe18f3238281befdb32fb12}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shuai},
+           giveni={S\bibinitperiod}}}%
+        {{hash=08f343193adee36fdd4faf0006b7894d}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Dinghao},
+           giveni={D\bibinitperiod}}}%
+        {{hash=fd903bc507de58459375d974764ab4ea}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=d628d74db4e2b82823e6983487ade93c}{%
+           family={Xue},
+           familyi={X\bibinitperiod},
+           given={Rui},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a21b1b138e10ec6ed5b904400bf3a51f}{%
+           family={Huo},
+           familyi={H\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=2f4107456904433d626178777704a2a2}{%
+           family={Zou},
+           familyi={Z\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{0d47ed50b6155864093c0c0b82facf70}
+      \strng{fullhash}{a62095ff587e9cc8760fa92e9486b621}
+      \strng{bibnamehash}{5bcd11db401858bfef55e91886c522ee}
+      \strng{authorbibnamehash}{5bcd11db401858bfef55e91886c522ee}
+      \strng{authornamehash}{0d47ed50b6155864093c0c0b82facf70}
+      \strng{authorfullhash}{a62095ff587e9cc8760fa92e9486b621}
+      \strng{nameabibnamehash}{5bcd11db401858bfef55e91886c522ee}
+      \strng{nameanamehash}{0d47ed50b6155864093c0c0b82facf70}
+      \strng{nameafullhash}{a62095ff587e9cc8760fa92e9486b621}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Software Engineering}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{number}{9}
+      \field{title}{Large-scale third-party library detection in Android markets}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{46}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{pages}{981\bibrangedash 1003}
+      \range{pages}{23}
+      \keyw{li2018large}
+    \endentry
     \entry{ma2016libradar}{inproceedings}{}
       \name{author}{4}{}{%
         {{hash=0def8931d3ab5aeae6c70ffc4afef2bb}{%
@@ -878,6 +1009,66 @@
       \range{pages}{13}
       \keyw{crussell2014andarwin}
     \endentry
+    \entry{xu2020libroad}{article}{}
+      \name{author}{2}{}{%
+        {{hash=3c38570c1a2c89c3525a2139602c96b0}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Jian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=55b7c121e569fb6de3d99272909b9208}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Qianting},
+           giveni={Q\bibinitperiod}}}%
+      }
+      \name{namea}{2}{}{%
+        {{hash=3c38570c1a2c89c3525a2139602c96b0}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Jian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=55b7c121e569fb6de3d99272909b9208}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Qianting},
+           giveni={Q\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{2bf32efbb31863d5373396bdb3a98a53}
+      \strng{fullhash}{7636857f889fec8280eed44cbb7b2e38}
+      \strng{bibnamehash}{7636857f889fec8280eed44cbb7b2e38}
+      \strng{authorbibnamehash}{7636857f889fec8280eed44cbb7b2e38}
+      \strng{authornamehash}{2bf32efbb31863d5373396bdb3a98a53}
+      \strng{authorfullhash}{7636857f889fec8280eed44cbb7b2e38}
+      \strng{nameabibnamehash}{7636857f889fec8280eed44cbb7b2e38}
+      \strng{nameanamehash}{2bf32efbb31863d5373396bdb3a98a53}
+      \strng{nameafullhash}{7636857f889fec8280eed44cbb7b2e38}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Mobile Computing}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{number}{1}
+      \field{title}{Libroad: Rapid, online, and accurate detection of tpls on android}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{21}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{pages}{167\bibrangedash 180}
+      \range{pages}{14}
+      \keyw{xu2020libroad}
+    \endentry
     \entry{backes2016reliable}{inproceedings}{}
       \name{author}{3}{}{%
         {{hash=4b96cad75f27ce1349d97e2aea69ac76}{%
@@ -993,8 +1184,8 @@
       \strng{nameabibnamehash}{b4e7f342456fb43b043b838b30ea3e5b}
       \strng{nameanamehash}{4dfb8079900115008aef9a57f96a754a}
       \strng{nameafullhash}{b4e7f342456fb43b043b838b30ea3e5b}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2014 IEEE Ninth International Conference on Intelligent Sensors, Sensor Networks and Information Processing (ISSNIP)}
@@ -1111,6 +1302,7 @@
       \strng{nameabibnamehash}{11badd4091b7f0d304b32d332580c852}
       \strng{nameanamehash}{0d47ed50b6155864093c0c0b82facf70}
       \strng{nameafullhash}{83f869f5dd304e2b40afb0503c662805}
+      \field{extraname}{2}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
