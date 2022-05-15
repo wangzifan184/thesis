@@ -421,7 +421,7 @@ Java字节码是基于堆栈结构的，上面字节码“Code”部分的每一
 
 
 
-\subsection{特征存储}
+\section{特征存储}
 
 为了便于特征的查找与管理，我将哈希树输出的特征存放在MySQL数据库中，步骤如下：
 
@@ -446,7 +446,7 @@ Java字节码是基于堆栈结构的，上面字节码“Code”部分的每一
 
 
 
-\subsection{特征匹配}
+\section{特征匹配}
 
 
 \begin{table}[!hpt]
@@ -588,6 +588,149 @@ Priority(c_{lib},c_{app})&=0.3\times Similarity(feature^{coarse}_{c_{lib}},featu
 	$Package[c_{app}]\leftarrow c_{lib}^{match}.get\_package()$\;
   }
 \end{algorithm}
+
+
+
+
+\chapter{混淆第三方库检测实验}
+
+
+
+\section{系统实现与实验概述}
+
+\subsection{系统实现}
+TPL-V Detector系统的控制流程部分用Python实现，负责jar包、apk等文件的处理，调用命令行工具javap对class文件进行反编译，以及对字节码文件的筛选。特征树的构建用C++实现，负责从字节码中提取特征，建立树状数据结构，以及生成各类的特征。其中Python通过pymsql库连接MySQL数据库，实现特征的存储和管理、特征的查询与匹配。系统实现包含脚本文件共19个，代码行数约2500行。其他配置见表\ref{tab:config}。
+
+\begin{table}[!hpt]
+  \caption{系统实现与实验环境配置}
+  \label{tab:config}
+  \centering
+  \begin{tabular}{cc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    配置 &  详情 \\ \midrule
+	CPU & Intel(R) E5-2630 v4\\
+	OS & Ubuntu 16.04.5 LTS\\
+	Core & 8\\
+	Python & 3.6.5\\
+	GCC & 5.4.0\\
+	MySQL & 8.0.29\\
+	Memory & 8GB\\
+	 \bottomrule
+
+  \end{tabular}
+\end{table}
+
+
+\subsection{实验流程}
+实验使用自建数据集，包含了8个来自Maven的标准库，共40个版本，以及10款来自第三方市场的App。实验首先在SDK数据集上进行，测试类的相似度阈值的最佳取值，然后使用混淆工具Proguard对Maven标准库进行混淆，将混淆前的标准库和经过混淆的标准库分别交由TPL-V Detector系统处理和存储，以未混淆的标准库作为先验知识，检测混淆过后的标准库，最后对其各项指标进行评估。接下来在真实数据上即来自第三方市场的App上进行实验，首先获取App中包含的第三方库，作为先验知识数据库，随后由TPL-V Detector进行检测，将结果与实际情况进行对比，评估其准确率及其它指标。此外，本文还将系统与现有的一些其他检测方法在准确率和耗时上进行了对比，以分析系统的优越性与不足之处。
+
+\subsection{评价指标}
+系统评价指标包括准确率（Accuracy）、精确率（Precision）、召回率（Recall）、F1得分（F1\ score）和误报率（FPR），各自定义如下：
+
+\begin{subequations}
+\begin{align}
+Accuracy&=\frac{TP+TN}{TP+TN+FP+FN}\\
+Precision&=\frac{TP}{TP+FP}\\
+Recall&=\frac{TP}{TP+FN}\\
+F1\_score&=\frac{2\times Precision\times Recall}{Precision+Recall}\\
+FPR&=\frac{FP}{FP+TN}
+\end{align}
+\end{subequations}
+
+其中TP、FP、TN、FN分别代表检测结果中真阳性、假阳性、真阴性、假阴性的数量。
+
+
+\section{混淆SDK检测实验}
+
+\subsection{Maven数据集}
+Maven仓库未Java开发者提供了丰富的开源组件，是目前最流行的开源软件包生态系统之一。本文从Maven中央仓库中选取了6个开源标准库，各库及其版本情况如表\ref{tab:maven}所示。
+
+\begin{table}[!hpt]
+  \caption{实验所选Maven标准库及其版本数}
+  \label{tab:config}
+  \centering
+  \begin{tabular}{cc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    库 &  版本数 \\ \midrule
+	net.sf.ezmorph & 11\\
+	com.alibaba.fastjson & 15\\
+	com.github.xujiaji.happy-bubble & 2\\
+	com.squareup.okhttp3.okhttp & 42\\
+	com.squareup.okio & 20\\
+	com.tencent.mm.opensdk & 2\\
+	 \bottomrule
+
+  \end{tabular}
+\end{table}
+
+\subsection{阈值$T_c$的选取}
+阈值$T_c$用于判断两个类是否匹配，如果类$class_a$和类$class_b$满足特征的相似度超过阈值，定义两者具有匹配关系$match$，即：
+\begin{equation}
+\begin{aligned}
+class_a\ &match\ class_b,\\
+if\ similarity(class_a,class_b)&=1-\frac{edit\_distance(feature_{a},feature_{b}}{length(feature_a)+length(feature_b)}\\
+&> T_c
+\end{aligned}
+\end{equation}
+
+阈值$T_c$的选取非常关键，对实验结果影响较大。阈值过高会导致匹配对细微的差异过于敏感，导致准确率降低；阈值过低会导致匹配门槛过于宽松，准确率虽然有所升高，但是误报率也会相应升高。因此本文对随机字符串的编辑距离，即Levenshtein距离的分布情况进行了描绘以确定合适的阈值选取范围。对于所含字符随机、长度随机的1000个字符串，分成500对分别计算其Levenshtein距离，进一步按照本文方法计算相似度得分，并将[0,1)平均分为10个区间，统计落入各区间的字符串对的数量。
+
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=12cm]{dist.png} \\
+  \caption{随机生成的字符串的相似度得分分布情况}
+ \label{fig:distribution}
+\end{figure}
+
+
+结果的分布情况如图\ref{fig:distribution}所示。根据图片可以看出，完全随机的两个字符串的相似度得分超过0.6的概率很小，因此选择$T_c=0.6$，以将尽可能多的库识别出来。
+
+\subsection{TPL-V Detector性能评估}
+
+\subsubsection{粗粒度-库匹配}
+实验所选的六个库的各版本数之和为92，即数据库中包含了92个独立的库。根据两级特征匹配策略，首先使用粗粒度特征来识别混淆的六个库分别对应与哪一个标准库。将混淆库从1至6依次编号，对于一个混淆库（例如混淆库1）与未混淆库（例如com.squareup.okio），首先将其下的类进行两两匹配，计算每一个配对的相似度得分。包含方法数多的类的匹配难度更高，对与不包含方法的类，其特征值是空字符串生成的哈希值，可以与任意另一个方法数为0的类匹配。即便在最初特征生成的过程中，TPL-V Detector将文件大小不超过1KB的字节码文件删去，但上面的极端情况仍然可以表明方法数不同的类的匹配难度不同，因此引入方法数占总方法数的比例作为该类的权重，即相似度得分前的系数项，具体算法如\ref{}。
+
+\begin{algorithm}[htb]
+  \caption{粗粒度匹配实验算法}
+  \label{algo:coarse_exp}
+  \small
+  \SetAlgoLined
+  \KwData{未混淆的标准库集合$L$，混淆后的标准库$L^{obfus}$}
+  \KwResult{混淆库与未混淆库映射关系$obfus\_from$}
+
+  Initialize obfuscated libraries $C_{lib}^{obfus}$\;
+  Initialize score list $score\_list\leftarrow \ empty\ list$\;
+  \For{$l^{obfus} \in L^{obfus}$}{
+	Initialize $score\_list[l^{obfus}]\leftarrow\ empty\ dictionary$\;
+	\For{$l \in L$}{
+		$score(l^{obfus},l)\leftarrow 0$\;
+		\For{$c^{obfus} \in C_{l^{obfus}}$}{
+			\For{$c \in C_{l}$}{
+				\eIf{$c^{obfus}\ match\ c$}{
+					$score\leftarrow score+similarity(c,c^{obfus})\times \frac{|c.get\_methods()|}{|l.get\_methods()|}$\;
+				}
+				{
+					continue\;
+				}
+			}
+		}
+		$score\_list[l^{obfus}]\leftarrow score\_list[l^{obfus}]\cup \{<l,score>\}$\;
+	}
+	$obfus\_from[l^{obfus}]\leftarrow l,max\{score\}\ for\ <l,score>\in score\_list[l^{obfus}]$\;
+  }
+\end{algorithm}
+
+
+\section{混淆安卓App第三方库检测实验}
+
+\subsection{Android数据集}
+
+\subsection{TPL-V Detector性能评估}
+
+\subsubsection{检测准确率对比实验}
+
+\subsubsection{检测耗时对比实验}
+
 
 
 
