@@ -688,7 +688,7 @@ if\ similarity(class_a,class_b)&=1-\frac{edit\_distance(feature_{a},feature_{b}}
 \subsection{TPL-V Detector性能评估}
 
 \subsubsection{粗粒度-库匹配}
-实验所选的六个库的各版本数之和为92，即数据库中包含了92个独立的库。根据两级特征匹配策略，首先使用粗粒度特征来识别混淆的六个库分别对应与哪一个标准库。将混淆库从1至6依次编号，对于一个混淆库（例如混淆库1）与未混淆库（例如com.squareup.okio），首先将其下的类进行两两匹配，计算每一个配对的相似度得分。包含方法数多的类的匹配难度更高，对与不包含方法的类，其特征值是空字符串生成的哈希值，可以与任意另一个方法数为0的类匹配。即便在最初特征生成的过程中，TPL-V Detector将文件大小不超过1KB的字节码文件删去，但上面的极端情况仍然可以表明方法数不同的类的匹配难度不同，因此引入方法数占总方法数的比例作为该类的权重，即相似度得分前的系数项，具体算法如\ref{}。
+实验所选的六个库的各版本数之和为92，即数据库中包含了92个独立的库。根据两级特征匹配策略，首先使用粗粒度特征来识别混淆的六个库分别对应与哪一个标准库。将混淆库从1至6依次编号，对于一个混淆库（例如混淆库1）与未混淆库（例如com.squareup.okio），首先将其下的类进行两两匹配，计算每一个配对的相似度得分。包含方法数多的类的匹配难度更高，对与不包含方法的类，其特征值是空字符串生成的哈希值，可以与任意另一个方法数为0的类匹配。即便在最初特征生成的过程中，TPL-V Detector将文件大小不超过1KB的字节码文件删去，但上面的极端情况仍然可以表明方法数不同的类的匹配难度不同，因此引入方法数占总方法数的比例作为该类的权重，即相似度得分前的系数项。
 
 \begin{algorithm}[htb]
   \caption{粗粒度匹配实验算法}
@@ -721,11 +721,77 @@ if\ similarity(class_a,class_b)&=1-\frac{edit\_distance(feature_{a},feature_{b}}
 \end{algorithm}
 
 
+具体算法如\ref{algo:coarse_exp}所示，对每一个混淆库，计算其与6个未混淆库的得分，选择得分最高者作为它对应的标准库，实验结果表\ref{tab:coarse_sdk}，加粗的单元格表示所在行列对应的混淆库与未混淆库匹配。
+
+
+\begin{table}[!hpt]
+  \caption{标准库混淆前后在粗粒度特征上的匹配结果}
+  \label{tab:coarse_sdk}
+  \centering
+  \begin{tabular}{ccccccc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+      & 混淆库1 &  混淆库2 & 混淆库3 & 混淆库4 & 混淆库5 & 混淆库6 \\ \midrule
+	ezmorph\tnote{a} & \textbf{0.930}\tnote{b} & 0.493 & 0.465 & 0.518 & 0.494 & 0.462\\
+	fastjson & 0.377 & 0.446 & \textbf{0.852} & 0.397 & 0.446 & 0.463 \\
+	happy-bubble & 0.529 & 0.486 & 0.486 & \textbf{0.929} & 0.500 & 0.486 \\
+	okhttp & 0.388 & 0.444 & 0.442 & 0.379 & 0.426 & \textbf{0.808}\\
+	okio & 0.400 & \textbf{0.842} & 0.527 & 0.420 & 0.439 & 0.473\\
+	opensdk & 0.414 & 0.456 & 0.491 & 0.435 & \textbf{0.842} & 0.455\\
+	 \bottomrule
+
+  \end{tabular}
+    \begin{tablenotes}
+    \item [a] 为表示方便省略标准库的groupID。% or \item [a]
+    \item [b] 粗体数据表示该数据为所在行/列中的最大值。% or \item [b]
+    \end{tablenotes}
+\end{table}
+
+根据表\ref{tab:coarse_sdk}，混淆库从1至6分别对应于ezmorph、okio、fastjson、happy-bubble、opensdk、okhttp，与实际上混淆的对应关系相同，混淆的第三发放标准库被全部检测出来。
+
+
+\subsubsection{细粒度-库匹配}
+
+在确定了各混淆库对应的标准库后，需要使用基于字节码的细粒度特征确定具体版本。实验算法基本与算法\ref{algo:coarse_exp}相同，对于两个库，计算各个类的配对的相似度，以方法数为权重，计算两个库的总得分。对每个混淆库的得分列表，选取得分最高的未混淆库作为它的匹配结果。
+
+
+各库版本匹配结果如图\ref{fig:version}所示，对每个库列出了排名前三的版本得分，由于opensdk和happy-bubble只包含两个版本，因此列出了前两名的版本得分。
+
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=12cm]{version.png} \\
+  \caption{细粒度版本匹配各库的版本得分情况}
+ \label{fig:version}
+\end{figure}
+
+
+
 \section{混淆安卓App第三方库检测实验}
 
 \subsection{Android数据集}
+Li\cite{li2021embedding}等人分析了大量的手机应用及其所使用的第三方库，本文从此数据集中选取了10款App作为实验的App数据集，并从这些App所包含的库中选择9个作为标准库数据集，具体包含情况如表\ref{tab:include}所示。
+
+\begin{table}[!hpt]
+  \caption{标准库混淆前后在粗粒度特征上的匹配结果}
+  \label{tab:coarse_sdk}
+  \centering
+  \begin{tabular}{ccccccc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+      \diagbox{Lib}{App}& 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \midrule
+	Google Ads & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 & 0 &2\\
+	Apache Http & 0.377 & 0.446 & \textbf{0.852} & 0.397 & 0.446 & 0.463 \\
+	happy-bubble & 0.529 & 0.486 & 0.486 & \textbf{0.929} & 0.500 & 0.486 \\
+	okhttp & 0.388 & 0.444 & 0.442 & 0.379 & 0.426 & \textbf{0.808}\\
+	okio & 0.400 & \textbf{0.842} & 0.527 & 0.420 & 0.439 & 0.473\\
+	opensdk & 0.414 & 0.456 & 0.491 & 0.435 & \textbf{0.842} & 0.455\\
+	 \bottomrule
+
+  \end{tabular}
+\end{table}
+
 
 \subsection{TPL-V Detector性能评估}
+
+\subsection{与现有工具的对比实验}
 
 \subsubsection{检测准确率对比实验}
 
