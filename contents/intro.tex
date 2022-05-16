@@ -768,28 +768,102 @@ if\ similarity(class_a,class_b)&=1-\frac{edit\_distance(feature_{a},feature_{b}}
 \section{混淆安卓App第三方库检测实验}
 
 \subsection{Android数据集}
-Li\cite{li2021embedding}等人分析了大量的手机应用及其所使用的第三方库，本文从此数据集中选取了10款App作为实验的App数据集，并从这些App所包含的库中选择9个作为标准库数据集，具体包含情况如表\ref{tab:include}所示。
+Li\cite{li2021embedding}等人分析了大量的手机应用及其所使用的第三方库，本文从此数据集中选取了10款App作为实验的App数据集，并从这些App所包含的库中选择9个作为标准库数据集，各App编号及详情见附录A，包含情况如表\ref{tab:include}所示。
 
 \begin{table}[!hpt]
-  \caption{标准库混淆前后在粗粒度特征上的匹配结果}
-  \label{tab:coarse_sdk}
+  \caption{App对各标准库的包含情况}
+  \label{tab:include}
   \centering
-  \begin{tabular}{ccccccc} \toprule
+  \begin{tabular}{ccccccccccc} \toprule
 %    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
       \diagbox{Lib}{App}& 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \midrule
-	Google Ads & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 & 0 &2\\
-	Apache Http & 0.377 & 0.446 & \textbf{0.852} & 0.397 & 0.446 & 0.463 \\
-	happy-bubble & 0.529 & 0.486 & 0.486 & \textbf{0.929} & 0.500 & 0.486 \\
-	okhttp & 0.388 & 0.444 & 0.442 & 0.379 & 0.426 & \textbf{0.808}\\
-	okio & 0.400 & \textbf{0.842} & 0.527 & 0.420 & 0.439 & 0.473\\
-	opensdk & 0.414 & 0.456 & 0.491 & 0.435 & \textbf{0.842} & 0.455\\
+	Google Ads & \ding{51} & \ding{51} & \ding{51} & \ding{51} & \ding{51} & \ding{55} & \ding{51} & \ding{51} & \ding{51} & \ding{51}  \\
+	Apache Http & \ding{51} & \ding{55} & \ding{51} & \ding{55} & \ding{55} & \ding{51} & \ding{51} & \ding{55} & \ding{55} & \ding{55} \\
+	Firebasee & \ding{51} & \ding{51} & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} \\
+	Square Dagger & \ding{51} & \ding{55} & \ding{55} & \ding{51} & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55}\\
+	ChartBoost & \ding{55} & \ding{55} & \ding{55} & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{51} & \ding{55} & \ding{55}\\
+	JavaX Annotation & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55}\\
+	OKHttp3.0 & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55}\\
+	Tencent SDKs & \ding{55} & \ding{55} & \ding{55} & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55}\\
+	ksoap2 & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{51}\\
 	 \bottomrule
-
   \end{tabular}
+    \begin{tablenotes}
+    \item \quad \quad \quad \quad \ding{51}表示app包含库，\ding{55}表示app不包含库。% or \item [a]
+    \end{tablenotes}
 \end{table}
 
 
 \subsection{TPL-V Detector性能评估}
+
+
+
+
+对于表\ref{tab:include}中的标准库，将每个库的每个版本作为一个独立的库，共得到529个标准第三方库作为先验知识。对于十款待测App，如果App的某个目录满足以下两个条件：
+\begin{enumerate}
+\item{该目录下包含class文件}
+\item{该目录的上级目录不包含class文件}
+\end{enumerate}
+则将该目录作为一个根包的目录。这样做的依据是：一个App所引入的第三方库的根包含有子包（文件夹）、根层调用子包的逻辑以及自身的部分代码实现，根包的上层目录作为组Id不包含实现代码，仅为了表明包的所属机构以及创造隔离的命名空间。
+
+
+因此对于App中每个满足上述条件的目录，都以此目录为包的根目录构建特征树，生成特征。由于App经过混淆处理，可能包括代码优化、资源压缩、死代码删除等步骤，因此为防止因为细微差别导致结果出现错判，设置阈值得分$T$，对于一对分别来自标准库和App的包，如果相似度得分阈值超过$T$，则认为该App使用了此标准库。
+
+对阈值从0.6到0.9，以0.05为间隔，刻画准确率与召回率变化曲线，来选择最佳的阈值。如图\ref{fig:threshold}所示，在0.6至0.8区间，随着阈值升高，匹配标准更加严格，准确率有所上升，但是出现某些App内的混淆库找不到对应的标准库的情况，因此召回率下降严重。当阈值跌过0.7时，准确率发生快速下降情况，导致这一情况产生的原因可能是阈值接近了两个不相关库就能达到的得分，大量版本错误的库甚至是不同的库进入到结果列表当中。为了在保持召回率不过低的情况下，尽量提高准确率，本文选择阈值$T=0.8$。
+
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=12cm]{threshold.png} \\
+  \caption{准确率与召回率随阈值变化曲线}
+ \label{fig:threshold}
+\end{figure}
+
+
+阈值选定后，进行App与标准库的匹配。对每一个App中划分出的每一个包，先采用粗粒度特征匹配算法\ref{algo:coarse_exp}选出该包所对应的库，再采用细粒度特征匹配算法识别出库的具体版本。由于阈值的设定，每个App的包可能在标准库数据库中有多个匹配结果，实验将这些结果都加入到匹配列表中，表示这些库是在现有知识下得出的结论。为了能够有效计算准确度，定义有效样本数为列表长度的倒数，因此若列表中只包含一个库，即系统选出了唯一的最佳匹配结果，那么此样本在评估指标计算的真阳性（TP）样本数中占1，否则列表越长，表示此次匹配效果越差，即不确定性高，相应的真阳性样本数占据小于1的一个分数。匹配结果如表\ref{tab:result}所示。
+
+\begin{table}[!hpt]
+  \caption{App对各标准库的包含情况}
+  \label{tab:result}
+  \centering
+  \begin{tabular}{ccccccccccc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+      \diagbox{Lib}{App}& 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \midrule
+	Google Ads & \ding{51} & \ding{51} & \ding{51} & \ding{51} & \ding{51} & \ding{55} & \ding{51} & \ding{51} & \ding{51} & \ding{51}  \\
+	Apache Http & \ding{51} & \ding{55} & \ding{51} & \ding{55} & \ding{55} & \ding{51} & \ding{51} & \ding{55} & \ding{55} & \ding{55} \\
+	Firebasee & \ding{51} & \ding{51} & \ding{51} & \ding{55} & \ding{55}* & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} \\
+	Square Dagger & \ding{51} & \ding{55} & \ding{55} & \ding{51} & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55}\\
+	ChartBoost & \ding{55} & \ding{55} & \ding{55} & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{51} & \ding{55} & \ding{55}\\
+	JavaX Annotation & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55}\\
+	OKHttp3.0 & \ding{51} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55}\\
+	Tencent SDKs & \ding{55} & \ding{55} & \ding{55} & \ding{55}* & \ding{55} & \ding{55} & \ding{51}* & \ding{55} & \ding{55} & \ding{55}\\
+	ksoap2 & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{55} & \ding{51}\\
+	 \bottomrule
+  \end{tabular}
+    \begin{tablenotes}
+    \item \quad \quad \quad \quad *表示检测结果错误。% or \item [a]
+    \end{tablenotes}
+\end{table}
+
+
+系统各评估指标结果如表\ref{tab:metric}所示，TPL-V Detector在准确率上表现较好，误报率很低，但是没有将App中使用到的库全部召回。查看各库的版本情况发现，识别出错较多的库——腾讯SDK（tencentcloud-sdk-java-common）包含了276个版本，仅版本3.1.x的子版本号就超过了100个，本身各版本之间的差异可能不大，而混淆后的App中经过了代码优化、压缩等过程，导致部分未用到的代码被删去，有一定可能损失包含关键区别的部分特征，最后使得系统在此库上表现不佳。
+
+\begin{table}[!hpt]
+  \caption{TPL-V Detector各项指标评估结果}
+  \label{tab:metric}
+  \centering
+  \begin{tabular}{cc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    指标 &  评估结果 \\ \midrule
+	Accuracy & 98.9\% \\
+	Precision & 88.0\% \\
+	Recall & 88.0\% \\
+	F1\_score & 88.0\% \\
+	FPR & 0.6\% \\
+	 \bottomrule
+  \end{tabular}
+\end{table}
+
+
 
 \subsection{与现有工具的对比实验}
 
