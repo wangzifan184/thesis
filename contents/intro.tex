@@ -73,11 +73,23 @@ Maven、Nuget、NPM包生态系统的开源项目进展速度尤为突出，开�
 
 本文的主要贡献如下：
 
+\begin{enumerate}
+\item{本文提出识别能力精确到具体版本的第三方库检测系统TPL-V Detector，实现了高准确率、高召回率、低误报率的检测方法。}
+\item{本文提出基于描述符类型以及字节码指令序列的特征生成方法，使得TPL-V Detector在检测混淆App方面仍有较好的表现。}
+\item{本文引入了粗/细粒度两级特征，并在数据库匹配过程中加入优先级队列策略，有效优化了朴素的匹配方法，节省了时间开销。}
+\item{本文在Maven数据集上进行了评估，能够准确将混淆前后的SDK一一匹配，在6个库超过200个版本的请胯下实现了100\%的准确率。}
+\item{本文对自建App数据集进行了表现测试，详细分析了不同阶段的时间开销，在综合版本识别与准确率等多个因素考虑下具有较好的性能，准确率高达98.9\%。}
+\end{enumerate}
+
+
 \section{论文内容安排}
 本文介绍了软件供应链条中，上游Java开源仓库的标准组件及其版本在下游混淆App产品中的识别和检测。
 
 \paragraph{第一章}简要介绍了软件供应链的蓬勃发展现状，以及当前产品开发流程中对标准组件的高重用；接着通过近年来所发生的较为严重的针对软件供应链的攻击事件，阐述软件供应链安全风险影响范围之广，影响程度之深，表明了该问题的紧迫性和严重性。最后，提出了本课题基于这一背景的研究内容和主要贡献。
-\paragraph{第二章}
+\paragraph{第二章}介绍了常用的App混淆技术及其对App中第三方库识别带来的困难；继续分为混淆库检测、无先验知识检测和有先验知识检测三个类别简述了研究现状，讨论不同类别检测方法的基本特征；最后针对版本检测问题，论述了目前方法的匮乏以及面临的主要问题。
+\paragraph{第三章}详细叙述了TPL-V Detector的系统设计和实现流程。首先提出了研究方法的概述，然后从App的预处理、特征树构建、特征存储与特征匹配几个步骤作了详细介绍。其中还补充了安卓应用各类文件的技术背景，并对特征树的结构、匹配流程与匹配策略等关键技术点增加了流程图与伪代码算法来辅助说明。
+\paragraph{第四章}针对准确率、召回率、FPR等指标，对TPL-V Detector的表现进行了评估，此外还深入分析了其各个阶段的时间开销，以及导致各种数据结果的可能原因。最后与现有工具进行了准确率和时间开销的比较。
+\paragraph{第五章}总结本课题的主要贡献，分析TPL-V Detector的优越性与不足之处，提出可能的原因以及现存的改进点，探讨值得后续深入研究的问题，提出展望。
 
 
 \chapter{技术背景}
@@ -206,7 +218,7 @@ simScore_c=\frac{sum\ of \ matched\ classes}{\#\ of\ classes\ in\ library}
 
 
 
-\chapter{研究方法}
+\chapter{TPL-V Detector系统设计}
 
 在参考了多篇文献后，我提出了一种适用于包的结构混淆、包/类/标识符重命名场景的，基于已知标准库的数据库，利用两类信息生成粗粒度/细粒度两级哈希特征的安卓应用第三方库及其特定版本的检测方法。
 
@@ -796,7 +808,7 @@ Li\cite{li2021embedding}等人分析了大量的手机应用及其所使用的�
 
 \subsection{TPL-V Detector性能评估}
 
-
+\subsubsection{在评价指标上的表现}
 
 
 对于表\ref{tab:include}中的标准库，将每个库的每个版本作为一个独立的库，共得到529个标准第三方库作为先验知识。对于十款待测App，如果App的某个目录满足以下两个条件：
@@ -864,8 +876,73 @@ Li\cite{li2021embedding}等人分析了大量的手机应用及其所使用的�
 \end{table}
 
 
+\subsubsection{时间开销实验}
+
+为了细致评估TPL-V Detector的时间开销，实验将从取得App到完成库匹配的整个流程分成了如图\ref{fig:flow}所示的四个部分，分别为：
+\begin{enumerate}
+\item {App预处理}
+\item {字节码特征提取}
+\item {特征树构建}
+\item {特征存储与匹配}
+\end{enumerate}
+其中App预处理又包含了Apk的解压、Dex文件的反编译、Class文件到Bytecode文件的转换，以及小于1KB文件的过滤。字节码特征提取包含了基于方法描述符的粗粒度特征的提取和基于字节码指令序列的细粒度特征的提取。特征树的构建自下而上从方法层到类层构建特征。特征的存储与匹配分为特征向MySQL的存储，以及特征的粗粒度/细粒度两级特征匹配。
+
+
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=15cm]{flow.pdf} \\
+  \caption{时间开销测试App库匹配的四阶段工作流程}
+ \label{fig:flow}
+\end{figure}
+
+对于实验所用十款App，按照文件大小排序，分别测试其各阶段所用时间，测试结果如图\ref{fig:time}所示。对于一个大小为15MB的App，执行完四个阶段所需耗时仅仅约半分钟。最大的App大小为258MB，处理时间开销已经接近了十分钟。在四个阶段中，阶段一耗时占比最大，基本都超过了总耗时的一半。经过对阶段一进一步分析，我认为可能是调用第三方工具所导致。对App的预处理首先需要调用unzip解压工具，获取DEX文件；对DEX文件，需要借助github开源工具dex2jar来获取class文件；最后class文件转换成字节码的过程中需要频繁的使用javap程序，累积产生了较大的时间开销。阶段二特征提取耗时较少，主要原因可能是此阶段只需要进行文本读取操作，并且为了过滤掉不包含方法的类，TPL-V Detector还会删除小于1KB的字节码文件，进一步节省了时间。阶段三是耗时最少的步骤，此部分由C++代码实现，数据结构较为繁杂，但是处理流程高效，将原始的粗细特征处理成方法的粗细特征，并将包/类/方法组织成树形结构，生成类的特征即可。第四阶段耗时占比在15\%至30\%之间，此部分耗时实际上依赖于先验知识数据库的大小，数据库越大，则匹配耗时越长；数据库小，则匹配的时间开销就很少。
+
+
+
+
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=11cm]{time.png} \\
+  \caption{各阶段时间开销随App大小变化曲线}
+ \label{fig:flow}
+\end{figure}
+
+
+Apk文件越大，包含的DEX文件就大，相应的class文件、字节码文件、产生的特征就更多，作为根包生成特征树的目录也更多，匹配耗时越长。反之亦然，App规模小，各阶段耗时也有所下降。根据图\ref{fig:four}，四个阶段的时间开销与App大小基本上呈现出线性关系。
+
+\begin{figure}[!htp]
+  \centering
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[height=4cm]{f1.png}
+    \caption{App预处理阶段时间开销}
+  \end{subfigure}
+  \hspace{1cm}
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[height=4cm]{f2.png}
+    \caption{特征提取阶段时间开销}
+  \end{subfigure}
+  \vfill
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[height=4cm]{f3.png}
+    \caption{特征树构建阶段时间开销}
+  \end{subfigure}
+  \hspace{1cm}
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \includegraphics[height=4cm]{f4.png}
+    \caption{特征存储与匹配阶段时间开销}
+  \end{subfigure}
+  \caption{各阶段时间开销(s)随App大小(MB)变化曲线}
+  \label{fig:four}
+\end{figure}
+
 
 \subsection{与现有工具的对比实验}
+
+
 
 \subsubsection{检测准确率对比实验}
 
