@@ -1,14 +1,49 @@
 % !TEX root = ../main.tex
 
-\chapter{绘制流程图}
+\chapter{实验数据集使用的App及Maven库详情}
 
-图~\ref{fig:flow_chart} 是一张流程图示意。使用 \pkg{tikz} 环境，搭配四种预定义节
-点（\verb+startstop+、\verb+process+、\verb+decision+和\verb+io+），可以容易地绘
-制出流程图。
+混淆App识别所使用的十款App的编号及对应详情：
 
-\begin{figure}[!htp]
+\begin{table}[!hpt]
+  \caption{TPL-V Detector各项指标评估结果}
+  \label{tab:appspec}
   \centering
-  \resizebox{6cm}{!}{\input{figures/flow_chart.tex}}
-  \bicaption{绘制流程图效果}{Flow chart}
-  \label{fig:flow_chart}
-\end{figure}
+  \begin{tabular}{cc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    编号 & 详情  \\ \midrule
+	1 & 3D\_Animation\_Maker\_Draw\_Cartoon\_v1.0.1.apk \\
+	2 & AnimeMaker\_v8.apk \\
+	3 & com.ivc.starprint.apk \\
+	4 & com.linkdesks.jewellegend.apk \\
+	5 & com.magmamobile.game.BubbleShooterHoliday.apk \\
+	6 & com.pathmazing.fannow.apk \\
+	7 & com.sqeeqee.andorid.apk \\
+	8 & com.Top.Friendly.Apps.Games.Cute.Christmas.Pic.Frames.Pro.apk \\
+	9 & com.yokai.watch.medal.battle.games.free.apk \\
+	10 & com.carlkuhl.stocktonshelter.apk\\
+	 \bottomrule
+  \end{tabular}
+\end{table}
+
+
+混淆库识别使用的Maven标准库及具体版本号：
+
+\begin{table}[!hpt]
+  \caption{Maven标准库及版本}
+  \label{tab:libspec}
+  \centering
+  \begin{tabular}{ccc} \toprule
+%    \multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+    Library & Package & Version  \\ \midrule
+	Google Ads & google-ads & 1.1.0\\
+	Apache Http & google-http-client-apache-v2 & 1.30.0 \\
+	Firebase & firebase-messaging & 9.2.1 \\
+	Square Dagger & dagger & 1.0.1 \\
+	ChartBoost & chartboost-sdk & 8.0.3 \\
+	JavaX Annotation & javax.annotation-api & 1.2 \\
+	OkHttp3.0 & okhttp & 4.7.2 \\
+	Tencent SDKs & tencentclout-sdk-java-common & 1.1.9 \\
+	ksoap2 & ksoap2-android-assembly & 3.3.0 \\
+	 \bottomrule
+  \end{tabular}
+\end{table}

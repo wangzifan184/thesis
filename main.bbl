@@ -309,12 +309,109 @@
       \field{userd}{english}
       \keyw{proguard}
     \endentry
+    \entry{csdn}{misc}{}
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://blog.csdn.net/weixin_30681615/article/details/95097404}}
+      \field{langid}{english}
+      \field{languageid}{chinese}
+      \field{lansortorder}{1}
+      \field{title}{ProGuard代码混淆技术详解}
+      \field{usera}{Z}
+      \field{userd}{chinese}
+      \keyw{csdn}
+    \endentry
+    \entry{hammad2018large}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=97d5714c18e8f6e057308e2a36dd70d7}{%
+           family={Hammad},
+           familyi={H\bibinitperiod},
+           given={Mahmoud},
+           giveni={M\bibinitperiod}}}%
+        {{hash=7e36e87fc3fb33dabe73c7075d22f31c}{%
+           family={Garcia},
+           familyi={G\bibinitperiod},
+           given={Joshua},
+           giveni={J\bibinitperiod}}}%
+        {{hash=7243bc9dcb94a297bc863f672dc9db0c}{%
+           family={Malek},
+           familyi={M\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod}}}%
+      }
+      \name{namea}{3}{}{%
+        {{hash=97d5714c18e8f6e057308e2a36dd70d7}{%
+           family={Hammad},
+           familyi={H\bibinitperiod},
+           given={Mahmoud},
+           giveni={M\bibinitperiod}}}%
+        {{hash=7e36e87fc3fb33dabe73c7075d22f31c}{%
+           family={Garcia},
+           familyi={G\bibinitperiod},
+           given={Joshua},
+           giveni={J\bibinitperiod}}}%
+        {{hash=7243bc9dcb94a297bc863f672dc9db0c}{%
+           family={Malek},
+           familyi={M\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{9fbc27ca90cdb462fe55b45003fddb9e}
+      \strng{fullhash}{78da3a81a4362081fbadf9e79709e54b}
+      \strng{bibnamehash}{78da3a81a4362081fbadf9e79709e54b}
+      \strng{authorbibnamehash}{78da3a81a4362081fbadf9e79709e54b}
+      \strng{authornamehash}{9fbc27ca90cdb462fe55b45003fddb9e}
+      \strng{authorfullhash}{78da3a81a4362081fbadf9e79709e54b}
+      \strng{nameabibnamehash}{78da3a81a4362081fbadf9e79709e54b}
+      \strng{nameanamehash}{9fbc27ca90cdb462fe55b45003fddb9e}
+      \strng{nameafullhash}{78da3a81a4362081fbadf9e79709e54b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 40th International Conference on Software Engineering}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{title}{A large-scale empirical study on the effects of code obfuscations on Android apps and anti-malware products}
+      \field{usera}{C}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{pages}{421\bibrangedash 431}
+      \range{pages}{11}
+      \keyw{hammad2018large}
+    \endentry
+    \entry{and}{misc}{}
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://blog.csdn.net/github_30662571/article/details/70921710}}
+      \field{langid}{english}
+      \field{languageid}{chinese}
+      \field{lansortorder}{1}
+      \field{title}{Android代码混淆技术总结}
+      \field{usera}{Z}
+      \field{userd}{chinese}
+      \keyw{and}
+    \endentry
     \entry{huazhiling}{misc}{}
       \list{language}{1}{%
         {english}%
       }
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{http://www.dexlabs.org/blog/bytecode-obfuscation}}
       \field{langid}{english}
@@ -324,6 +421,78 @@
       \field{usera}{Z}
       \field{userd}{english}
       \keyw{huazhiling}
+    \endentry
+    \entry{balachandran2016control}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{3}{}{%
+        {{hash=d800f60efc730b392622a3b0d20da35f}{%
+           family={Balachandran},
+           familyi={B\bibinitperiod},
+           given={Vivek},
+           giveni={V\bibinitperiod}}}%
+        {{hash=4d3c2916435b39799442a56691cbccd2}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Darell\bibnamedelima JJ},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=aaa2878dbc5715e421a55692cfff66cb}{%
+           family={Thing},
+           familyi={T\bibinitperiod},
+           given={Vrizlynn\bibnamedelima LL},
+           giveni={V\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \true{morenamea}
+      \name{namea}{3}{}{%
+        {{hash=d800f60efc730b392622a3b0d20da35f}{%
+           family={Balachandran},
+           familyi={B\bibinitperiod},
+           given={Vivek},
+           giveni={V\bibinitperiod}}}%
+        {{hash=4d3c2916435b39799442a56691cbccd2}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Darell\bibnamedelima JJ},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=aaa2878dbc5715e421a55692cfff66cb}{%
+           family={Thing},
+           familyi={T\bibinitperiod},
+           given={Vrizlynn\bibnamedelima LL},
+           giveni={V\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{be5ecaf082e93c601bf8e30d37577e95}
+      \strng{fullhash}{0d22905956f5913cda4ed0df61d32411}
+      \strng{bibnamehash}{0d22905956f5913cda4ed0df61d32411}
+      \strng{authorbibnamehash}{0d22905956f5913cda4ed0df61d32411}
+      \strng{authornamehash}{be5ecaf082e93c601bf8e30d37577e95}
+      \strng{authorfullhash}{0d22905956f5913cda4ed0df61d32411}
+      \strng{nameabibnamehash}{0d22905956f5913cda4ed0df61d32411}
+      \strng{nameanamehash}{be5ecaf082e93c601bf8e30d37577e95}
+      \strng{nameafullhash}{0d22905956f5913cda4ed0df61d32411}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computers \& Security}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Control flow obfuscation for android applications}
+      \field{usera}{J}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{volume}{61}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \field{pages}{72\bibrangedash 93}
+      \range{pages}{22}
+      \keyw{balachandran2016control}
     \endentry
     \entry{laszlo2009obfuscating}{article}{}
       \name{author}{2}{}{%
@@ -381,6 +550,73 @@
       \field{pages}{3\bibrangedash 19}
       \range{pages}{17}
       \keyw{laszlo2009obfuscating}
+    \endentry
+    \entry{王柯林2021基于随机森林的抗混淆}{article}{}
+      \name{author}{5}{}{%
+        {{hash=909a51f22462baf0481015f110feb0ad}{%
+           family={王柯林},
+           familyi={王\bibinitperiod}}}%
+        {{hash=5b1b16480e9596bfc2b5e3cf6aa7b736}{%
+           family={杨珂},
+           familyi={杨\bibinitperiod}}}%
+        {{hash=35833c39a2017625378de8cf1a8b7be7}{%
+           family={赵瑞哲},
+           familyi={赵\bibinitperiod}}}%
+        {{hash=fa9bf36bcfce87185a4d9e51201487b1}{%
+           family={辛丽玲},
+           familyi={辛\bibinitperiod}}}%
+        {{hash=0f266c2ce4311f4d42004a86dd7e1966}{%
+           family={汪秋云},
+           familyi={汪\bibinitperiod}}}%
+      }
+      \name{namea}{5}{}{%
+        {{hash=909a51f22462baf0481015f110feb0ad}{%
+           family={王柯林},
+           familyi={王\bibinitperiod}}}%
+        {{hash=5b1b16480e9596bfc2b5e3cf6aa7b736}{%
+           family={杨珂},
+           familyi={杨\bibinitperiod}}}%
+        {{hash=35833c39a2017625378de8cf1a8b7be7}{%
+           family={赵瑞哲},
+           familyi={赵\bibinitperiod}}}%
+        {{hash=fa9bf36bcfce87185a4d9e51201487b1}{%
+           family={辛丽玲},
+           familyi={辛\bibinitperiod}}}%
+        {{hash=0f266c2ce4311f4d42004a86dd7e1966}{%
+           family={汪秋云},
+           familyi={汪\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \strng{namehash}{98acd5365ff2a3611f3f18eee0f0f1b7}
+      \strng{fullhash}{f53b441eb6429d1a4b73f819cf983bf3}
+      \strng{bibnamehash}{d6a02d81e3db7821832d30542aa8dc1a}
+      \strng{authorbibnamehash}{d6a02d81e3db7821832d30542aa8dc1a}
+      \strng{authornamehash}{98acd5365ff2a3611f3f18eee0f0f1b7}
+      \strng{authorfullhash}{f53b441eb6429d1a4b73f819cf983bf3}
+      \strng{nameabibnamehash}{d6a02d81e3db7821832d30542aa8dc1a}
+      \strng{nameanamehash}{98acd5365ff2a3611f3f18eee0f0f1b7}
+      \strng{nameafullhash}{f53b441eb6429d1a4b73f819cf983bf3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{信息安全研究}
+      \field{langid}{english}
+      \field{languageid}{chinese}
+      \field{lansortorder}{1}
+      \field{number}{2}
+      \field{title}{基于随机森林的抗混淆 Android 恶意应用检测}
+      \field{usera}{J}
+      \field{userd}{chinese}
+      \field{userf}{chinese}
+      \field{volume}{7}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{pages}{126}
+      \range{pages}{1}
+      \keyw{王柯林2021基于随机森林的抗混淆}
     \endentry
     \entry{book2013longitudinal}{article}{}
       \name{author}{3}{}{%
@@ -846,8 +1082,8 @@
       \strng{nameabibnamehash}{8504b5a471a88975500e5ae656751ea1}
       \strng{nameanamehash}{adf72069a377089a252e41a0bd5b39f2}
       \strng{nameafullhash}{0f74e5efc9f92d1664e3c626a59cd3de}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the 38th international conference on software engineering companion}
@@ -921,8 +1157,9 @@
       \strng{nameabibnamehash}{9ef71b484d219de607aab194b5fe806a}
       \strng{nameanamehash}{11d44ff490ac002b7c69ba3889eb54fe}
       \strng{nameafullhash}{e0672207833c01d8f4d1655eb8545ff1}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the 2015 International Symposium on Software Testing and Analysis}
@@ -989,8 +1226,8 @@
       \strng{nameabibnamehash}{22116c0fec9ec6d8006108af0b97fce1}
       \strng{nameanamehash}{427f19580a8d2487089dc0efe3ad1240}
       \strng{nameafullhash}{22116c0fec9ec6d8006108af0b97fce1}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Transactions on Mobile Computing}
@@ -1049,8 +1286,8 @@
       \strng{nameabibnamehash}{7636857f889fec8280eed44cbb7b2e38}
       \strng{nameanamehash}{2bf32efbb31863d5373396bdb3a98a53}
       \strng{nameafullhash}{7636857f889fec8280eed44cbb7b2e38}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Transactions on Mobile Computing}
@@ -1116,8 +1353,8 @@
       \strng{nameabibnamehash}{89c05f497c4e3f3c62d99b8eee9e1657}
       \strng{nameanamehash}{74a809a9fc18be7c12c70335b36afd4b}
       \strng{nameafullhash}{89c05f497c4e3f3c62d99b8eee9e1657}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security}
@@ -1321,12 +1558,44 @@
       \range{pages}{12}
       \keyw{li2017libd}
     \endentry
+    \entry{10min}{misc}{}
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.jianshu.com/p/2a7474ee3527}}
+      \field{langid}{english}
+      \field{languageid}{chinese}
+      \field{lansortorder}{1}
+      \field{title}{Android项目构建流程}
+      \field{usera}{Z}
+      \field{userd}{chinese}
+      \keyw{10min}
+    \endentry
+    \entry{class}{misc}{}
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://blog.csdn.net/mingyuli/article/details/120268136}}
+      \field{langid}{english}
+      \field{languageid}{chinese}
+      \field{lansortorder}{1}
+      \field{title}{深入理解Java Class文件格式}
+      \field{usera}{Z}
+      \field{userd}{chinese}
+      \keyw{class}
+    \endentry
     \entry{d2j}{misc}{}
       \list{language}{1}{%
         {english}%
       }
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{howpublished}{\url{https://github.com/wangzifan184/dex2jar}}
       \field{langid}{english}
       \field{languageid}{english}
@@ -1340,8 +1609,8 @@
       \list{language}{1}{%
         {english}%
       }
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{howpublished}{\url{https://repo.maven.apache.org/}}
       \field{langid}{english}
       \field{languageid}{english}
@@ -1441,8 +1710,8 @@
       \strng{nameabibnamehash}{c3e4e540f1c495ad3e253fa6dc4aff5c}
       \strng{nameanamehash}{e68820fc878615e57e4a3b7a120940dd}
       \strng{nameafullhash}{2a21a3cfabb97cd279a1a67fa2c521a1}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2021 IEEE/ACM 43rd International Conference on Software Engineering (ICSE)}
@@ -1547,8 +1816,8 @@
       \strng{nameanamehash}{59364d087cfb3e47feb01d728ac8c908}
       \strng{nameafullhash}{9f52787df2b44dbeae1dc9888893563a}
       \field{extraname}{3}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the 29th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering}
@@ -1564,6 +1833,150 @@
       \field{pages}{466\bibrangedash 477}
       \range{pages}{12}
       \keyw{li2021embedding}
+    \endentry
+    \entry{zhang2019libid}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=12de923d251f71627454442d1517e1bf}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Jiexin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fc4b061bc9e1eb54449d09671ee62255}{%
+           family={Beresford},
+           familyi={B\bibinitperiod},
+           given={Alastair\bibnamedelima R},
+           giveni={A\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=1014efab24e972eac0582f3bea85c5da}{%
+           family={Kollmann},
+           familyi={K\bibinitperiod},
+           given={Stephan\bibnamedelima A},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \name{namea}{3}{}{%
+        {{hash=12de923d251f71627454442d1517e1bf}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Jiexin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fc4b061bc9e1eb54449d09671ee62255}{%
+           family={Beresford},
+           familyi={B\bibinitperiod},
+           given={Alastair\bibnamedelima R},
+           giveni={A\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=1014efab24e972eac0582f3bea85c5da}{%
+           family={Kollmann},
+           familyi={K\bibinitperiod},
+           given={Stephan\bibnamedelima A},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{75054bafc000de4da8e8935614fbc35d}
+      \strng{fullhash}{0100445a6ad068e2cfa7e1ec28b7bde6}
+      \strng{bibnamehash}{0100445a6ad068e2cfa7e1ec28b7bde6}
+      \strng{authorbibnamehash}{0100445a6ad068e2cfa7e1ec28b7bde6}
+      \strng{authornamehash}{75054bafc000de4da8e8935614fbc35d}
+      \strng{authorfullhash}{0100445a6ad068e2cfa7e1ec28b7bde6}
+      \strng{nameabibnamehash}{0100445a6ad068e2cfa7e1ec28b7bde6}
+      \strng{nameanamehash}{75054bafc000de4da8e8935614fbc35d}
+      \strng{nameafullhash}{0100445a6ad068e2cfa7e1ec28b7bde6}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 28th ACM SIGSOFT International Symposium on Software Testing and Analysis}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Libid: reliable identification of obfuscated third-party android libraries}
+      \field{usera}{C}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{pages}{55\bibrangedash 65}
+      \range{pages}{11}
+      \keyw{zhang2019libid}
+    \endentry
+    \entry{wang2018orlis}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=5c786d9afb3cf178271120f1fd926d21}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Yan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=261065145d7f62eebf357ac9bd4d6f4a}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Haowei},
+           giveni={H\bibinitperiod}}}%
+        {{hash=5d600668132d45825389adfc99b25119}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Hailong},
+           giveni={H\bibinitperiod}}}%
+        {{hash=60515cd1b6652d2e1b2698a955bcc108}{%
+           family={Rountev},
+           familyi={R\bibinitperiod},
+           given={Atanas},
+           giveni={A\bibinitperiod}}}%
+      }
+      \name{namea}{4}{}{%
+        {{hash=5c786d9afb3cf178271120f1fd926d21}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Yan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=261065145d7f62eebf357ac9bd4d6f4a}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Haowei},
+           giveni={H\bibinitperiod}}}%
+        {{hash=5d600668132d45825389adfc99b25119}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Hailong},
+           giveni={H\bibinitperiod}}}%
+        {{hash=60515cd1b6652d2e1b2698a955bcc108}{%
+           family={Rountev},
+           familyi={R\bibinitperiod},
+           given={Atanas},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{organization}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{d9239633d67d6e266f62df02fb241b22}
+      \strng{fullhash}{563d0ae6b96befc98cac240efe15116d}
+      \strng{bibnamehash}{e3c84a2a776f6f43bf3f1a106ef52195}
+      \strng{authorbibnamehash}{e3c84a2a776f6f43bf3f1a106ef52195}
+      \strng{authornamehash}{d9239633d67d6e266f62df02fb241b22}
+      \strng{authorfullhash}{563d0ae6b96befc98cac240efe15116d}
+      \strng{nameabibnamehash}{e3c84a2a776f6f43bf3f1a106ef52195}
+      \strng{nameanamehash}{d9239633d67d6e266f62df02fb241b22}
+      \strng{nameafullhash}{563d0ae6b96befc98cac240efe15116d}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2018 IEEE/ACM 5th International Conference on Mobile Software Engineering and Systems (MOBILESoft)}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Orlis: Obfuscation-resilient library detection for Android}
+      \field{usera}{C}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{pages}{13\bibrangedash 23}
+      \range{pages}{11}
+      \keyw{wang2018orlis}
     \endentry
   \enddatalist
 \endrefsection
