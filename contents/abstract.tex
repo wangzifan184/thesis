@@ -1,24 +1,11 @@
 % !TEX root = ../main.tex
 
 \begin{abstract}
-  中文摘要应该将学位论文的内容要点简短明了地表达出来，应该包含论文中的基本信息，
-  体现科研工作的核心思想。摘要内容应涉及本项科研工作的目的和意义、研究方法、研究
-  成果、结论及意义。注意突出学位论文中具有创新性的成果和新见解的部分。摘要中不宜
-  使用公式、化学结构式、图表和非公知公用的符号和术语，不标注引用文献编号。硕士学
-  位论文中文摘要字数为 500 字左右，博士学位论文中文摘要字数为 800 字左右。英文摘
-  要内容应与中文摘要内容一致。
 
-  摘要页的下方注明本文的关键词（4～6个）。
+软件供应链日益蓬勃，上游开源生态系统的安全性广泛影响着下游产品，准确识别上游组件迫在眉睫。针对安卓应用及上游开源仓库软件，如何在现有混淆技术的前提下准确识别第三方库，如何将识别精度提高到具体版本成为亟待解决的问题。基于此背景，本文设计了基于先验知识、能够抵抗混淆的第三方库及版本检测系统TPL-V Detector，通过提取字节码文件的函数描述符返回值和参数的类型、字节码指令序列等特征，构建包、类、方法三个层次的特征树，能够有效抵抗重命名混淆和结构混淆。本文创新性地引入了两级特征与优先级队列匹配策略，通过粗粒度特征确定第三方库从而缩小特征匹配范围，接着使用细粒度特征检测第三方库的具体版本，并基于局部性假设使用优先级队列保存当前的最佳匹配结果，从而加快下一个待测类的匹配。本文对TPL-V Detector的抗混淆能力进行了实验，在6个来自Maven仓库的标准第三方库上进行了混淆前后的匹配，取得了100\%的准确率。在实际安卓应用上的实验进一步表明TPL-V Detector在检测混淆App第三方库及其版本上的优越性能，达到了88.0\%的精确率与81.5\%的召回率。本文进一步深入分析了TPL-V Detector的各阶段时间开销以及两级特征和优先级队列匹配策略对匹配阶段的加速效果。最后与现有的其它方法相比，TPL-V Detector在综合各指标下取得了最佳的表现。
+
 \end{abstract}
 
 \begin{abstract*}
-  Shanghai Jiao Tong University (SJTU) is a key university in China. SJTU was
-  founded in 1896. It is one of the oldest universities in China. The University
-  has nurtured large numbers of outstanding figures include JIANG Zemin, DING
-  Guangen, QIAN Xuesen, Wu Wenjun, WANG An, etc.
-
-  SJTU has beautiful campuses, Bao Zhaolong Library, Various laboratories. It
-  has been actively involved in international academic exchange programs. It is
-  the center of CERNet in east China region, through computer networks, SJTU has
-  faster and closer connection with the world.
+The software supply chain is booming day by day. The security of the upstream open source ecosystem widely affects the downstream products. It is urgent to accurately identify the upstream components. For Android applications and upstream open source warehouse software, how to accurately identify the third-party library under the premise of existing confusion technology, and how to improve the identification accuracy to a specific version has become an urgent problem to be solved. Based on this background, this paper designs a third-party library and version detection system tpl-v detector which is based on a priori knowledge and can resist confusion. By extracting the characteristics of function descriptor return value, parameter type and bytecode instruction sequence of bytecode file, this paper constructs a three-level feature tree of package, class and method, which can effectively resist renaming confusion and structure confusion. This paper innovatively introduces the two-level feature and priority queue matching strategy, determines the third-party library through coarse-grained features, so as to narrow the feature matching range, then uses fine-grained features to detect the specific version of the third-party library, and uses the priority queue to save the current best matching results based on local assumptions, so as to speed up the matching of the next class to be tested. In this paper, the anti confusion ability of tpl-v detector is tested. The matching before and after confusion is carried out on six standard third-party libraries from Maven warehouse, and 100\% accuracy is achieved. Experiments on actual Android applications further show the superior performance of tpl-v detector in detecting confused app third-party libraries and their versions, reaching an accuracy rate of 88.0\% and a recall rate of 81.5\%. This paper further analyzes the time cost of each stage of tpl-v detector and the acceleration effect of two-level characteristics and priority queue matching strategy on the matching stage. Finally, compared with other existing methods, tpl-v detector has achieved the best performance under the comprehensive indicators.
 \end{abstract*}
