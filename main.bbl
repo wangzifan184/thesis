@@ -390,38 +390,6 @@
       \range{pages}{11}
       \keyw{hammad2018large}
     \endentry
-    \entry{and}{misc}{}
-      \list{language}{1}{%
-        {chinese}%
-      }
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://blog.csdn.net/github_30662571/article/details/70921710}}
-      \field{langid}{english}
-      \field{languageid}{chinese}
-      \field{lansortorder}{1}
-      \field{title}{Android代码混淆技术总结}
-      \field{usera}{Z}
-      \field{userd}{chinese}
-      \keyw{and}
-    \endentry
-    \entry{huazhiling}{misc}{}
-      \list{language}{1}{%
-        {english}%
-      }
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{http://www.dexlabs.org/blog/bytecode-obfuscation}}
-      \field{langid}{english}
-      \field{languageid}{english}
-      \field{lansortorder}{4}
-      \field{title}{Dalvik Bytecode Obfuscation on Android}
-      \field{usera}{Z}
-      \field{userd}{english}
-      \keyw{huazhiling}
-    \endentry
     \entry{balachandran2016control}{article}{}
       \true{moreauthor}
       \true{morelabelname}
@@ -1005,8 +973,8 @@
       \strng{nameanamehash}{0d47ed50b6155864093c0c0b82facf70}
       \strng{nameafullhash}{a62095ff587e9cc8760fa92e9486b621}
       \field{extraname}{1}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Transactions on Software Engineering}
@@ -1082,8 +1050,8 @@
       \strng{nameabibnamehash}{8504b5a471a88975500e5ae656751ea1}
       \strng{nameanamehash}{adf72069a377089a252e41a0bd5b39f2}
       \strng{nameafullhash}{0f74e5efc9f92d1664e3c626a59cd3de}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the 38th international conference on software engineering companion}
@@ -1578,8 +1546,8 @@
       \list{language}{1}{%
         {chinese}%
       }
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://blog.csdn.net/mingyuli/article/details/120268136}}
       \field{langid}{english}
@@ -1594,8 +1562,8 @@
       \list{language}{1}{%
         {english}%
       }
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{howpublished}{\url{https://github.com/wangzifan184/dex2jar}}
       \field{langid}{english}
       \field{languageid}{english}
